@@ -3,9 +3,8 @@ from sensor.logger import logging
 from sensor.entity.config_entity import DataIngestionConfig
 from sensor.entity.artifact_entity import DataIngestionArtifact
 from sklearn.model_selection import train_test_split
-from pandas import DataFrame
 import os,sys
-
+from pandas import DataFrame
 from sensor.data_access.sensor_data import SensorData
 class DataIngestion:
 
@@ -17,7 +16,7 @@ class DataIngestion:
 
     def export_data_into_feature_store(self) -> DataFrame:
         """
-        Export mong db data collection as data frome  into feature
+        Export mongo db collection record as data frame into feature
         """
         try:
             logging.info("Exporting data from mongodb to feature store")
@@ -37,7 +36,36 @@ class DataIngestion:
         """
         Feature store dataset will be split into train and test file
         """
-        pass
+
+        try:
+            train_set, test_set = train_test_split(
+                dataframe, test_size=self.data_ingestion_config.train_test_split_ratio
+            )
+
+            logging.info("Performed train test split on the dataframe")
+
+            logging.info(
+                "Exited split_data_as_train_test method of Data_Ingestion class"
+            )
+
+            dir_path = os.path.dirname(self.data_ingestion_config.training_file_path)
+
+            os.makedirs(dir_path, exist_ok=True)
+
+            logging.info(f"Exporting train and test file path.")
+
+            train_set.to_csv(
+                self.data_ingestion_config.training_file_path, index=False, header=True
+            )
+
+            test_set.to_csv(
+                self.data_ingestion_config.testing_file_path, index=False, header=True
+            )
+
+            logging.info(f"Exported train and test file path.")
+        except Exception as e:
+            raise SensorData(e,sys)
+    
 
     def initiate_data_ingestion(self) -> DataIngestionArtifact:
         try:

@@ -5,8 +5,7 @@ from datetime import datetime
 from from_root import from_root
 
 LOG_FILE = f"{datetime.now().strftime('%m_%d_%Y_%H_%M_%S')}.log"
-PATH = "C:\\Users\\signi\\Music\\Sensor_project\\Senor-fault-Ineuron"
-
+PATH = "C:\\Users\\signi\\Music\\Sensor_project\\Day2_code\\sensor-fault-detection"
 
 logs_path = os.path.join(PATH, "logs", LOG_FILE)
 

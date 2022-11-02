@@ -2,7 +2,7 @@ import pymongo
 from sensor.constant.database import DATABASE_NAME
 from sensor.constant.env_variable import MONGODB_URL_KEY
 import certifi
-import os   
+import os
 ca = certifi.where()
 
 class MongoDBClient:
@@ -20,3 +20,5 @@ class MongoDBClient:
             self.database_name = database_name
         except Exception as e:
             raise e
+
+
