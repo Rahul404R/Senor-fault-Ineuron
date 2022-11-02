@@ -5,9 +5,9 @@ from datetime import datetime
 from from_root import from_root
 
 LOG_FILE = f"{datetime.now().strftime('%m_%d_%Y_%H_%M_%S')}.log"
-PATH = "C:\\Users\\signi\\Music\\Sensor_project\\Day2_code\\sensor-fault-detection"
+path = os.path.join(from_root(),"Music\\Sensor_project\\Senor-fault-Ineuron")
 
-logs_path = os.path.join(PATH, "logs", LOG_FILE)
+logs_path = os.path.join(path, "logs", LOG_FILE)
 
 os.makedirs(logs_path, exist_ok=True)
 
