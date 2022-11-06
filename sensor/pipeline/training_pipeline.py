@@ -35,12 +35,10 @@ class TrainPipeline:
         except  Exception as e:
             raise  SensorException(e,sys)
 
-    def start_data_transformation(self,data_validation_artifact:DataTransformationArtifact):
+    def start_data_transformation(self,data_validation_artifact:DataValidationArtifact):
         try:
             data_transformation_config = DataTransformationConfig(training_pipeline_config=self.training_pipeline_config)
-            data_transformation = DataTransformation(data_validation_artifact=data_validation_artifact,
-            data_transformation_config=data_transformation_config
-            )
+            data_transformation = DataTransformation(data_validation_artifact=data_validation_artifact,data_transformation_config=data_transformation_config)
             data_transformation_artifact = data_transformation.initiate_data_transformation()
             return data_transformation_artifact
 
@@ -69,6 +67,6 @@ class TrainPipeline:
         try:
             data_ingestion_artifact:DataIngestionArtifact = self.start_data_ingestion()
             data_validation_artifact=self.start_data_validaton(data_ingestion_artifact=data_ingestion_artifact)
-            data_transformation_artifact=self.start_data_transformation(data_validation_artifact=data_validation_artifact)
+            data_transformation_artifact = self.start_data_transformation(data_validation_artifact=data_validation_artifact)
         except  Exception as e:
             raise  SensorException(e,sys)
