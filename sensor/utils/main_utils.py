@@ -25,7 +25,7 @@ def write_yaml_file(file_path: str, content: object, replace: bool = False) -> N
             yaml.dump(content, file)
 
     except Exception as e:
-        raise SensorException(e, sys) from e
+        raise SensorException(e, sys)
 
 
 def save_numpy_array_data(file_path: str,array:np.array):
@@ -74,7 +74,6 @@ def load_object(file_path: str) -> object:
             raise Exception (f"The file: {file_path} is not exist")
 
         with open(file_path,"rb") as file_obj:
-            dill.load(file_obj)
-            return dill
+            return dill.load(file_obj)
     except Exception as e:
         raise SensorException(e,sys) from e
