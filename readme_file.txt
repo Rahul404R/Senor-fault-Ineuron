@@ -31,7 +31,6 @@ STEPS
 	BUCKET NAME - sensor-fault-detect-pipeline
 
 2. Create ECR repo to store/save docker image
-	REPO - 423253052430.dkr.ecr.ap-south-1.amazonaws.com/sensor-fault-model
 
 3. EC2 machine Ubuntu created
 4. Open EC2 and Install docker in EC2 machine
