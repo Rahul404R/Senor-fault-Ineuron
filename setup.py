@@ -7,9 +7,6 @@ def get_requirements()->List[str]:
     """
     requirement_list:List[str] = []
 
-    """
-    Write a code to read requirements.txt file and append each requirements in requirement_list variables.
-    """
     return requirement_list
 
 setup(
