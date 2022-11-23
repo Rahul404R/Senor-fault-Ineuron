@@ -1,12 +1,13 @@
 from sensor.configuration.mongo_db_connection import MongoDBClient
 from sensor.exception import SensorException
 import os,sys
+import shutil
 from sensor.logger import logging
 from sensor.pipeline import training_pipeline
 from sensor.pipeline.training_pipeline import TrainPipeline
 from sensor.utils.main_utils import read_yaml_file
 from sensor.constant.training_pipeline import SAVED_MODEL_DIR
-from fastapi import FastAPI
+from fastapi import FastAPI,UploadFile,File
 from sensor.constant.application import APP_HOST,APP_PORT
 from starlette.responses import RedirectResponse
 from uvicorn import run as app_run
@@ -42,12 +43,24 @@ async def train_route():
     except Exception as e:
         return Response(f"Error Occured! {e}")
 
-@app.get("/predict")
-async def predict_route():
+        
+@app.post("/upload")
+def upload(file: UploadFile = File(...)):
     try:
-        #get data from user csv file
-        #convert csv file to dataframe
-        df = None
+        with open(file.filename, 'wb') as f:
+            shutil.copyfileobj(file.file, f)
+    except Exception:
+        return {"message": "There was an error uploading the file"}
+    finally:
+        file.file.close()
+        
+    return {"message": f"Successfully uploaded {file.filename}"}
+
+@app.get("/predict")
+async def predict_route(file):
+    try:
+        
+        df = file
         model_resolver = ModelResolver(model_dir = SAVED_MODEL_DIR)
         if not model_resolver.is_model_exists():
             return Response("Model is not available")
@@ -57,8 +70,7 @@ async def predict_route():
         y_pred = model.predict(df)
         df['predicted_column'] = y_pred
         df['predicted_column'].replace(TargetValueMapping().reverse_mapping(),inplace=True)
-        
-        #decide how to return file to user.
+               
 
     except Exception as e:
         raise Response(f"Error Occured! {e}")
